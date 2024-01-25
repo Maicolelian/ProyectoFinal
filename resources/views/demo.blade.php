@@ -228,6 +228,13 @@
                                     <h1 class="text-gray-500"></h1>
                                     <p class="leading-6 text-sm">{{ $release_date}}</p>
                                 </div>
+                                <div class="flex items-center space-x-2 tracking-wide pb-1">
+                                    <h1 class="text-gray-500"></h1>
+                                    <p class="leading-6 text-sm">{{ $id_genero = $data ['results'][$number]['genre_ids'][0] }}</p> 
+                                    <p class="leading-6 text-sm">{{ $lista_de_generos ['genres'][0]['id']}}</p>
+                                    <p class="leading-6 text-sm">{{ $lista_de_generos ['genres'][0]['name']}}</p>
+                                    
+                                </div>
                                 <p class="leading-6 mt-5 text-gray-500">{{ $overview}}</p>
                                 <br>
                                 <div class="flex items-center space-x-2 tracking-wide pb-1">

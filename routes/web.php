@@ -19,3 +19,5 @@ Route::prefix('v1/pelis')->group(function ()
     Route::delete('/delete/{id}', [PelisController::class, 'delete']);
 
 });
+
+Route::get('/genero', [PelisController::class, 'genero'])->name('genero');

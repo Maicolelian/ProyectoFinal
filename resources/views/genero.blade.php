@@ -1,0 +1,1 @@
+<p class="leading-6 text-sm">{{ $lista_de_generos}}</p>

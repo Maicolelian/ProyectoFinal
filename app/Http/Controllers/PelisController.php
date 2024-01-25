@@ -16,8 +16,25 @@ class PelisController extends Controller
         $data = Http::asJson()
         ->get(config('services.tmdb.endpoint').$parametros_peli .'&api_key='.config('services.tmdb.api'));
 
-        return view('demo', compact('data'));
+        $parametros_genero = 'genre/movie/list?language=es-CO';
+
+        $lista_de_generos = Http::asJson()
+        ->get(config('services.tmdb.endpoint').$parametros_genero .'&api_key='.config('services.tmdb.api'));
+
+        return view('demo', compact('data', 'lista_de_generos'));
     } 
+
+    /* public function genero(){
+
+        $parametros_genero = 'genre/movie/list?language=es-CO';
+
+        $lista_de_generos = Http::asJson()
+        ->get(config('services.tmdb.endpoint').$parametros_genero .'&api_key='.config('services.tmdb.api'));
+
+        print_r('<br>'. $lista_de_generos . '<br>');
+        //var_dump($data);
+        return view('demo', compact('lista_de_generos'));
+    }  */
 
     public function get()
     {
