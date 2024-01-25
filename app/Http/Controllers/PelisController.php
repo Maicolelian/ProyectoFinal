@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
 use App\Models\Peliculas;
 
-class DemoController extends Controller
+class PelisController extends Controller
 {
 
     public function demo(){
@@ -18,16 +18,6 @@ class DemoController extends Controller
 
         return view('demo', compact('data'));
     } 
-
-    /* public function demo(){
-
-        $tmdb_id = 436270; //Black Adam (2022) Movie TMDB ID
-
-        $data = Http::asJson()
-            ->get(config('services.tmdb.endpoint').'movie/'.$tmdb_id. '?api_key='.config('services.tmdb.api'));
-            
-        return view('demo',compact('data'));
-    } */
 
     public function get()
     {
@@ -43,7 +33,7 @@ class DemoController extends Controller
     {
         try {
             $data['nombre'] = $request['nombre'];
-            $data['genero'] = $request['genero'];
+            $data['lanzamiento'] = $request['lanzamiento'];
             $data['lenguaje'] = $request['lenguaje'];
             $data['titulo_original'] = $request['titulo_original'];
             $data['resumen'] = $request['resumen'];
@@ -69,7 +59,7 @@ class DemoController extends Controller
     {
         try {
             $data['nombre'] = $request['nombre'];
-            $data['genero'] = $request['genero'];
+            $data['lanzamiento'] = $request['lanzamiento'];
             $data['lenguaje'] = $request['lenguaje'];
             $data['titulo_original'] = $request['titulo_original'];
             $data['resumen'] = $request['resumen'];

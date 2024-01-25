@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\DemoController;
+use App\Http\Controllers\PelisController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,14 +18,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/demo', [DemoController::class, 'demo'])->name('demo');
+Route::get('/demo', [PelisController::class, 'demo'])->name('demo');
 
 Route::prefix('v1/pelis')->group(function () 
 {
-    Route::get('/list', [DemoController::class, 'get']);
-    Route::post('/create', [DemoController::class, 'create']);
-    Route::get('/getById/{id}', [DemoController::class, 'getById']);
-    Route::put('/update/{id}', [DemoController::class, 'update']);
-    Route::delete('/delete/{id}', [DemoController::class, 'delete']);
+    Route::get('/list', [PelisController::class, 'get']);
+    Route::post('/create', [PelisController::class, 'create']);
+    Route::get('/getById/{id}', [PelisController::class, 'getById']);
+    Route::put('/update/{id}', [PelisController::class, 'update']);
+    Route::delete('/delete/{id}', [PelisController::class, 'delete']);
 
 });
