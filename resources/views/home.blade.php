@@ -13,27 +13,6 @@
         <script src="https://cdn.tailwindcss.com"></script>
 
         <script>
-            //metodo que sirve para listar peliculas
-            /* function listar_pelicula() {
-                fetch('/v1/pelis/list')
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Error al obtener las películas');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    // Procesa los datos obtenidos (por ejemplo, mostrarlos en la vista)
-                    console.log(data);
-                    // Actualiza la vista con las películas obtenidas
-                    // ...
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    // Muestra un mensaje de error al usuario
-                    // ...
-                });
-            } */
 
             function guardar_pelicula(title,release_date,original_language,original_title,overview,poster_path) {
             // aqui se define los datos que se desea enviar al servidor
@@ -173,37 +152,32 @@
         <!-- menu principal -->
         <div class="topnav">
             <a class="active" href="#home">Home</a>
-            <a href="#about">Mis peliculas</a>
-
-            <!-- <a href="#contact">Contact</a> -->
+           
             <div class="search-container">
                 <form action="/action_page.php">
                 <input type="text" placeholder="Buscar.." name="search">
                 <button type="submit"><i class="fa fa-search"></i></button>
                 </form>
             </div>
-            </div>
+        </div>
 
-            <div style="padding-left:16px">
-            <br>
-            <br>
-
-            <center><h1 class="text-2xl text-gray-900 font-semibold mb-2">Cartelera</h1></center>
-            <br>
-            <br>
-            
-            </div>
-
+        <div style="padding-left:16px">
+                <br>
+                <br>
+                <center><h1 class="text-2xl text-gray-900 font-semibold mb-2">Cartelera</h1></center>
+                <br>
+                <br>
+        </div>
         <!-- fin del menu principal -->
         <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
             <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
             
             @foreach (range(0, count($data['results'])-1) as $number)
-            <!-- {{ $ruta_poster =       $data ['results'][$number]['poster_path'] }}
+            <!-- {{ $ruta_poster =  $data ['results'][$number]['poster_path'] }}
             {{ $title =             $data ['results'][$number]['title'] }}
             {{ $original_language = $data ['results'][$number]['original_language'] }}
             {{ $original_title =    $data ['results'][$number]['original_title'] }}
-            {{ $release_date =             $data ['results'][$number]['release_date'] }}
+            {{ $release_date =      $data ['results'][$number]['release_date'] }}
             {{ $overview =          $data ['results'][$number]['overview'] }} -->
                 <div class="mt-8 bg-white dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg">
                     <div class="flex items-center p-4 w-[920px]">
@@ -212,10 +186,19 @@
                         </div>
                         <div class="w-9/12">
                             <div class="ml-5">
-                            <p>Resultado #: {{ $number }}</p>
+                            <p>Pelicula: {{ $number }}</p>
 
                                 <h2 class="text-2xl text-gray-900 font-semibold mb-2">{{ $title}}</h2>
-                                
+                                <div class="flex items-center space-x-2 tracking-wide pb-1">
+                                @if(count($lista_de_generos['genres']) > 0)
+                                    @foreach ($lista_de_generos['genres'] as $singleGenre)
+                                        {{ $singleGenre['name'] }}
+                                        @if (!$loop->last)
+                                            <span class="mx-2 flex items-center">•</span>
+                                        @endif
+                                    @endforeach
+                                @endif
+                                </div>
                                 <div class="flex items-center space-x-2 tracking-wide pb-1">
                                     <h1 class="text-gray-500">Idioma</h1>
                                     <p class="leading-6 text-sm">{{ $original_language}}</p>
@@ -227,13 +210,6 @@
                                 <div class="flex items-center space-x-2 tracking-wide pb-1">
                                     <h1 class="text-gray-500"></h1>
                                     <p class="leading-6 text-sm">{{ $release_date}}</p>
-                                </div>
-                                <div class="flex items-center space-x-2 tracking-wide pb-1">
-                                    <h1 class="text-gray-500"></h1>
-                                    <p class="leading-6 text-sm">{{ $id_genero = $data ['results'][$number]['genre_ids'][0] }}</p> 
-                                    <p class="leading-6 text-sm">{{ $lista_de_generos ['genres'][0]['id']}}</p>
-                                    <p class="leading-6 text-sm">{{ $lista_de_generos ['genres'][0]['name']}}</p>
-                                    
                                 </div>
                                 <p class="leading-6 mt-5 text-gray-500">{{ $overview}}</p>
                                 <br>

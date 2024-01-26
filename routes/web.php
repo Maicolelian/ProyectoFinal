@@ -8,7 +8,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/demo', [PelisController::class, 'demo'])->name('demo');
+Route::get('/home', [PelisController::class, 'home'])->name('home');
 
 Route::prefix('v1/pelis')->group(function () 
 {
@@ -20,4 +20,3 @@ Route::prefix('v1/pelis')->group(function ()
 
 });
 
-Route::get('/genero', [PelisController::class, 'genero'])->name('genero');

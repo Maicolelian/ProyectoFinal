@@ -9,7 +9,7 @@ use App\Models\Peliculas;
 class PelisController extends Controller
 {
 
-    public function demo(){
+    public function home(){
 
         $parametros_peli = 'discover/movie?include_adult=false&include_video=false&language=es-CO&page=1&sort_by=popularity.desc';
 
@@ -21,20 +21,8 @@ class PelisController extends Controller
         $lista_de_generos = Http::asJson()
         ->get(config('services.tmdb.endpoint').$parametros_genero .'&api_key='.config('services.tmdb.api'));
 
-        return view('demo', compact('data', 'lista_de_generos'));
+        return view('home', compact('data', 'lista_de_generos'));
     } 
-
-    /* public function genero(){
-
-        $parametros_genero = 'genre/movie/list?language=es-CO';
-
-        $lista_de_generos = Http::asJson()
-        ->get(config('services.tmdb.endpoint').$parametros_genero .'&api_key='.config('services.tmdb.api'));
-
-        print_r('<br>'. $lista_de_generos . '<br>');
-        //var_dump($data);
-        return view('demo', compact('lista_de_generos'));
-    }  */
 
     public function get()
     {
