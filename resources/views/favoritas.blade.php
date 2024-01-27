@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Peliculas en cartelera</title>
+        <title>Peliculas favoritas</title>
 
         <!-- Fonts -->
         <link href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
@@ -13,6 +13,118 @@
         <script src="https://cdn.tailwindcss.com"></script>
 
         <script>
+
+            function eliminar_pelicula(id_pelicula)
+            {
+                
+                const url = `/v1/pelis/delete/${id_pelicula}`;
+
+                // Realizar la solicitud DELETE
+                fetch(url, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}' 
+                }
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Error en la solicitud.');
+                    }
+                    alert ('¡Pelicula eliminada correctamente!');
+                    /* return response.json(); */
+                })
+                .then(data => {
+                    console.log('Respuesta del servidor:', data);
+                    
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            }
+
+
+            function listar_peliculas() 
+            {
+                // URL del servicio
+                const apiUrl = 'http://127.0.0.1:8000/v1/pelis/list';
+                // Realizar la solicitud GET utilizando Fetch
+                fetch('/v1/pelis/list', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}' 
+                }
+            }) .then(response => {
+                    // Verificar si la solicitud fue exitosa (código de respuesta 200)
+                    if (!response.ok) {
+                    throw new Error(`Error en la solicitud: ${response.status}`);
+                    }                   
+                    // Convertir la respuesta a formato JSON
+                    return response.json();
+                })
+                .then(data => {
+    console.info(data);
+    // Manipular los datos recibidos
+    const listaPeliculas = document.getElementById('listaPeliculas');
+
+    // Iterar sobre las películas y agregarlas a la lista
+    data.forEach(pelicula => {
+        // Crear elementos para cada propiedad de la película
+        const listItem = document.createElement('div');
+        const idElement = document.createElement('h1');
+        const nombreElement = document.createElement('h1');
+        const tituloOriginalElement = document.createElement('h2');
+        const lanzamientoElement = document.createElement('h2');
+        const lenguajeElement = document.createElement('h2');
+        const resumenElement = document.createElement('h2');
+        const posterElement = document.createElement('h2');
+        const brElement = document.createElement('br');
+        const buttonElement = document.createElement('button');
+
+        // Asignar el contenido de cada propiedad a los elementos correspondientes
+        idElement.textContent = `Id: ${pelicula.id}`;
+        nombreElement.textContent = `Nombre: ${pelicula.nombre}`;
+        tituloOriginalElement.textContent = `Título Original: ${pelicula.titulo_original}`;
+        lanzamientoElement.textContent = `Lanzamiento: ${pelicula.lanzamiento}`;
+        lenguajeElement.textContent = `Lenguaje: ${pelicula.lenguaje}`;
+        resumenElement.textContent = `Resumen: ${pelicula.resumen}`;
+        posterElement.textContent = `Poster: ${pelicula.poster}`;
+        buttonElement.textContent = 'Eliminar de favoritos'; // Puedes cambiar el texto del botón según tus necesidades
+
+        // Agregar elementos a listItem
+        listItem.appendChild(idElement);
+        listItem.appendChild(nombreElement);
+        listItem.appendChild(tituloOriginalElement);
+        listItem.appendChild(lanzamientoElement);
+        listItem.appendChild(lenguajeElement);
+        listItem.appendChild(resumenElement);
+        listItem.appendChild(posterElement);
+        listItem.appendChild(brElement);
+        listItem.appendChild(buttonElement);
+
+        // Agregar listItem a listaPeliculas
+        listaPeliculas.appendChild(listItem);
+        
+        // Agregar un evento al botón (puedes cambiar 'click' por otro evento según tus necesidades)
+        buttonElement.addEventListener('click', () => {
+            // Lógica para manejar el clic en el botón
+            console.log(`Detalles de la película: ${pelicula.nombre}`);
+            console.log(`Detalles de la película: ${pelicula.id}`);
+            eliminar_pelicula(`${pelicula.id}`);
+            // Agrega aquí la lógica que desees realizar al hacer clic en el botón
+        });
+    });
+})
+
+                .catch(error => {
+                    // Capturar y manejar cualquier error que pueda ocurrir durante la solicitud
+                    console.error('Error durante la solicitud:', error);
+                });
+
+            }
+
+            listar_peliculas();
 
             function guardar_pelicula(title,release_date,original_language,original_title,overview,poster_path) {
             // aqui se define los datos que se desea enviar al servidor
@@ -162,77 +274,15 @@
 
         <div style="padding-left:16px">
                 <br>
-                <center><h1 class="text-2xl text-blue-800 font-semibold mb-2">Cartelera</h1></center>
+                <center><h1 class="text-2xl text-blue-800 font-semibold mb-2">Favoritas</h1></center>
                 <br>
         </div>
         <!-- fin del menu principal -->
-        <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
-            <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
-            
-            @foreach (range(0, count($data['results'])-1) as $number)
-            <!-- {{ $ruta_poster =  $data ['results'][$number]['poster_path'] }}
-            {{ $title =             $data ['results'][$number]['title'] }}
-            {{ $original_language = $data ['results'][$number]['original_language'] }}
-            {{ $original_title =    $data ['results'][$number]['original_title'] }}
-            {{ $release_date =      $data ['results'][$number]['release_date'] }}
-            {{ $overview =          $data ['results'][$number]['overview'] }} -->
-                <div class="mt-8 bg-white dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg">
-                    <div class="flex items-center p-4 w-[920px]">
-                        <div class="w-3/12">
-                            <img src="https://www.themoviedb.org/t/p/w220_and_h330_face{{$ruta_poster}}" alt="Poster" class="rounded ">
-                        </div>
-                        <div class="w-9/12">
-                            <div class="ml-5">
-                            <p>Pelicula: </p>
+        <div>
+            <div id="listaPeliculas">
 
-                                <h2 class="text-2xl text-gray-900 font-semibold mb-2">{{ $title}}</h2>
-                                <div class="flex items-center space-x-2 tracking-wide pb-1">
-                                <h1 class="text-gray-500">Genero</h1>
-                                @if(count($lista_de_generos['genres']) > 0)
-                                    @php
-                                        $genero = 'Acción'; 
-                                    @endphp
-                                    @foreach ($lista_de_generos['genres'] as $singleGenre)
-                                        @if ($singleGenre['name'] === $genero)
-                                            <span class="text-sm">
-                                                {{ $singleGenre['name'] }}
-                                            </span>
-                                            @break
-                                        @endif
-                                    @endforeach
-                                @endif
-
-                                </div>
-                                <div class="flex items-center space-x-2 tracking-wide pb-1">
-                                    <h1 class="text-gray-500">Idioma</h1>
-                                    <p class="leading-6 text-sm">{{ $original_language}}</p>
-                                </div>
-                                <div class="flex items-center space-x-2 tracking-wide pb-1">
-                                    <h1 class="text-gray-500">Titulo original</h1>
-                                    <p class="leading-6 text-sm">{{ $original_title}}</p>
-                                </div>
-                                <div class="flex items-center space-x-2 tracking-wide pb-1">
-                                    <h1 class="text-gray-500">Lanzamiento</h1>
-                                    <p class="leading-6 text-sm">{{ $release_date}}</p>
-                                </div>
-                                <p class="leading-6 mt-5 text-gray-500">{{ $overview}}</p>
-                                <br>
-                                <div class="flex items-center space-x-2 tracking-wide pb-1">
-                                    <button onclick="guardar_pelicula('{{ $data ['results'][$number]['title'] }}',
-                                                                      '{{ $data ['results'][$number]['release_date'] }}',
-                                                                      '{{ $data ['results'][$number]['original_language'] }}',
-                                                                      '{{ $data ['results'][$number]['original_title'] }}',
-                                                                      '{{ $data ['results'][$number]['overview'] }}',
-                                                                      '{{ $data ['results'][$number]['poster_path'] }}',
-                                                                       )" 
-                                    class="btn" style="width:100%"><i class="fa fa-download"></i> Guardar Pelicula</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            @endforeach
             </div>
         </div>
+        
     </body>
 </html>

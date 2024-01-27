@@ -22,7 +22,11 @@ class PelisController extends Controller
         ->get(config('services.tmdb.endpoint').$parametros_genero .'&api_key='.config('services.tmdb.api'));
 
         return view('home', compact('data', 'lista_de_generos'));
-    } 
+    }
+    
+    public function favoritas() {
+        return view('favoritas');
+    }
 
     public function get()
     {

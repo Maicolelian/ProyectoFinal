@@ -9,6 +9,7 @@ Route::get('/', function () {
 });
 
 Route::get('/home', [PelisController::class, 'home'])->name('home');
+Route::get('/favoritas', [PelisController::class, 'favoritas'])->name('favoritas');
 
 Route::prefix('v1/pelis')->group(function () 
 {
