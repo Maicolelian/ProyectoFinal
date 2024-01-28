@@ -4,9 +4,10 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Peliculas en cartelera</title>
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/botonGuardar.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/menu.css') }}">
 
-        <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+        <title>Peliculas en cartelera</title>
 
         <link href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 
@@ -14,10 +15,10 @@
 
         <script>
 
-            function guardar_pelicula(title,release_date,original_language,original_title,overview,poster_path) {
+            function guardar_pelicula(title,genero_name,original_language,original_title,overview,poster_path) {
             var datos = {
                 nombre: title,
-                lanzamiento: release_date,
+                genero: genero_name,
                 lenguaje: original_language,
                 titulo_original: original_title,
                 resumen: overview,
@@ -48,75 +49,6 @@
             });
         }
         </script>
-
-        
-
-        <style>
-            * {box-sizing: border-box;}
-            body {
-            margin: 0;
-            font-family: Arial, Helvetica, sans-serif;
-            }
-            .topnav {
-            overflow: hidden;
-            background-color: #e9e9e9;
-            }
-            .topnav a {
-            float: left;
-            display: block;
-            color: black;
-            text-align: center;
-            padding: 14px 16px;
-            text-decoration: none;
-            font-size: 17px;
-            }
-            .topnav a:hover {
-            background-color: #ddd;
-            color: black;
-            }
-            .topnav a.active {
-            background-color: #2196F3;
-            color: white;
-            }
-            .topnav .search-container {
-            float: right;
-            }
-            .topnav input[type=text] {
-            padding: 6px;
-            margin-top: 8px;
-            font-size: 17px;
-            border: none;
-            }
-            .topnav .search-container button {
-            float: right;
-            padding: 6px 10px;
-            margin-top: 8px;
-            margin-right: 16px;
-            background: #ddd;
-            font-size: 17px;
-            border: none;
-            cursor: pointer;
-            }
-            .topnav .search-container button:hover {
-            background: #ccc;
-            }
-            @media screen and (max-width: 600px) {
-            .topnav .search-container {
-                float: none;
-            }
-            .topnav a, .topnav input[type=text], .topnav .search-container button {
-                float: none;
-                display: block;
-                text-align: left;
-                width: 100%;
-                margin: 0;
-                padding: 14px;
-            }
-            .topnav input[type=text] {
-                border: 1px solid #ccc;  
-            }
-            }
-        </style>
         
     </head>
     <body class="antialiased">
@@ -146,7 +78,7 @@
             {{ $title =             $data ['results'][$number]['title'] }}
             {{ $original_language = $data ['results'][$number]['original_language'] }}
             {{ $original_title =    $data ['results'][$number]['original_title'] }}
-            {{ $release_date =      $data ['results'][$number]['release_date'] }}
+            {{ $genero_id =         $data ['results'][$number]['genre_ids'][0] }}
             {{ $overview =          $data ['results'][$number]['overview'] }} -->
                 <div class="mt-8 bg-white dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg">
                     <div class="flex items-center p-4 w-[920px]">
@@ -160,8 +92,15 @@
                                 <h2 class="text-2xl text-gray-900 font-semibold mb-2">{{ $title}}</h2>
                                 <div class="flex items-center space-x-2 tracking-wide pb-1">
                                 <h1 class="text-gray-500">Genero</h1>
-                                {{ $lista_de_generos }}
-
+                                <p class="leading-6 text-sm"><!-- {{ $id_genero = $data ['results'][$number]['genre_ids'][0] }} --></p> 
+                                
+                                 @foreach ($lista_de_generos ['genres'] as $genero) 
+                                            @if ($genero['id'] == $id_genero) 
+                                                {{ $genero['name'] }}
+                                            @endif
+                                 @endforeach 
+                                
+                                    
                                 </div>
                                 <div class="flex items-center space-x-2 tracking-wide pb-1">
                                     <h1 class="text-gray-500">Idioma</h1>
@@ -171,21 +110,17 @@
                                     <h1 class="text-gray-500">Titulo original</h1>
                                     <p class="leading-6 text-sm">{{ $original_title}}</p>
                                 </div>
-                                <div class="flex items-center space-x-2 tracking-wide pb-1">
-                                    <h1 class="text-gray-500">Lanzamiento</h1>
-                                    <p class="leading-6 text-sm">{{ $release_date}}</p>
-                                </div>
                                 <p class="leading-6 mt-5 text-gray-500">{{ $overview}}</p>
                                 <br>
                                 <div class="flex items-center space-x-2 tracking-wide pb-1">
-                                    <button onclick="guardar_pelicula('{{ $data ['results'][$number]['title'] }}',
-                                                                      '{{ $data ['results'][$number]['release_date'] }}',
+                                    <button class="btn" onclick="guardar_pelicula('{{ $data ['results'][$number]['title'] }}',
+                                                                      '{{ $data ['results'][$number]['genre_ids'][0] }}',
                                                                       '{{ $data ['results'][$number]['original_language'] }}',
                                                                       '{{ $data ['results'][$number]['original_title'] }}',
                                                                       '{{ $data ['results'][$number]['overview'] }}',
                                                                       '{{ $data ['results'][$number]['poster_path'] }}',
                                                                        )" 
-                                    class="btn" style="width:100%"><i class="fa fa-download"></i> Guardar Pelicula</button>
+                                     style="width:100%"><i class="fa fa-download"></i> Guardar Pelicula</button>
                                 </div>
                             </div>
                         </div>

@@ -13,7 +13,7 @@ class Peliculas extends Model
 
     protected $fillable = [
         'nombre',
-        'lanzamiento',
+        'genero',
         'lenguaje',
         'titulo_original',
         'resumen',

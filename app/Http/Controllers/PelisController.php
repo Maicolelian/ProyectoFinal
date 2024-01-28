@@ -42,7 +42,7 @@ class PelisController extends Controller
     {
         try {
             $data['nombre'] = $request['nombre'];
-            $data['lanzamiento'] = $request['lanzamiento'];
+            $data['genero'] = $request['genero'];
             $data['lenguaje'] = $request['lenguaje'];
             $data['titulo_original'] = $request['titulo_original'];
             $data['resumen'] = $request['resumen'];
@@ -68,7 +68,7 @@ class PelisController extends Controller
     {
         try {
             $data['nombre'] = $request['nombre'];
-            $data['lanzamiento'] = $request['lanzamiento'];
+            $data['genero'] = $request['genero'];
             $data['lenguaje'] = $request['lenguaje'];
             $data['titulo_original'] = $request['titulo_original'];
             $data['resumen'] = $request['resumen'];
