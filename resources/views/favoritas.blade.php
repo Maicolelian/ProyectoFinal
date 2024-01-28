@@ -6,10 +6,8 @@
 
         <title>Peliculas favoritas</title>
 
-        <!-- Fonts -->
         <link href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 
-        <!-- TailwindCss CDN -->
         <script src="https://cdn.tailwindcss.com"></script>
 
         <script>
@@ -19,7 +17,6 @@
                 
                 const url = `/v1/pelis/delete/${id_pelicula}`;
 
-                // Realizar la solicitud DELETE
                 fetch(url, {
                 method: 'DELETE',
                 headers: {
@@ -32,7 +29,7 @@
                         throw new Error('Error en la solicitud.');
                     }
                     alert ('¡Pelicula eliminada correctamente!');
-                    /* return response.json(); */
+                    return response.json();
                 })
                 .then(data => {
                     console.log('Respuesta del servidor:', data);
@@ -46,9 +43,8 @@
 
             function listar_peliculas() 
             {
-                // URL del servicio
-                const apiUrl = 'http://127.0.0.1:8000/v1/pelis/list';
-                // Realizar la solicitud GET utilizando Fetch
+               
+                const apiUrl = 'http://127.0.0.1:8000/v1/pelis/list';                
                 fetch('/v1/pelis/list', {
                 method: 'GET',
                 headers: {
@@ -56,69 +52,62 @@
                     'X-CSRF-TOKEN': '{{ csrf_token() }}' 
                 }
             }) .then(response => {
-                    // Verificar si la solicitud fue exitosa (código de respuesta 200)
                     if (!response.ok) {
                     throw new Error(`Error en la solicitud: ${response.status}`);
                     }                   
-                    // Convertir la respuesta a formato JSON
+                    
                     return response.json();
                 })
                 .then(data => {
-    console.info(data);
-    // Manipular los datos recibidos
-    const listaPeliculas = document.getElementById('listaPeliculas');
+                console.info(data);
+            
+                const listaPeliculas = document.getElementById('listaPeliculas');
 
-    // Iterar sobre las películas y agregarlas a la lista
-    data.forEach(pelicula => {
-        // Crear elementos para cada propiedad de la película
-        const listItem = document.createElement('div');
-        const idElement = document.createElement('h1');
-        const nombreElement = document.createElement('h1');
-        const tituloOriginalElement = document.createElement('h2');
-        const lanzamientoElement = document.createElement('h2');
-        const lenguajeElement = document.createElement('h2');
-        const resumenElement = document.createElement('h2');
-        const posterElement = document.createElement('h2');
-        const brElement = document.createElement('br');
-        const buttonElement = document.createElement('button');
+                
+                data.forEach(pelicula => {
+                    
+                    const listItem = document.createElement('div');
+                    const idElement = document.createElement('h1');
+                    const nombreElement = document.createElement('h1');
+                    const tituloOriginalElement = document.createElement('h2');
+                    const lanzamientoElement = document.createElement('h2');
+                    const lenguajeElement = document.createElement('h2');
+                    const resumenElement = document.createElement('h2');
+                    const posterElement = document.createElement('h2');
+                    const brElement = document.createElement('br');
+                    const buttonElement = document.createElement('button');
 
-        // Asignar el contenido de cada propiedad a los elementos correspondientes
-        idElement.textContent = `Id: ${pelicula.id}`;
-        nombreElement.textContent = `Nombre: ${pelicula.nombre}`;
-        tituloOriginalElement.textContent = `Título Original: ${pelicula.titulo_original}`;
-        lanzamientoElement.textContent = `Lanzamiento: ${pelicula.lanzamiento}`;
-        lenguajeElement.textContent = `Lenguaje: ${pelicula.lenguaje}`;
-        resumenElement.textContent = `Resumen: ${pelicula.resumen}`;
-        posterElement.textContent = `Poster: ${pelicula.poster}`;
-        buttonElement.textContent = 'Eliminar de favoritos'; // Puedes cambiar el texto del botón según tus necesidades
+                    idElement.textContent = `Id: ${pelicula.id}`;
+                    nombreElement.textContent = `Nombre: ${pelicula.nombre}`;
+                    tituloOriginalElement.textContent = `Título Original: ${pelicula.titulo_original}`;
+                    lanzamientoElement.textContent = `Lanzamiento: ${pelicula.lanzamiento}`;
+                    lenguajeElement.textContent = `Lenguaje: ${pelicula.lenguaje}`;
+                    resumenElement.textContent = `Resumen: ${pelicula.resumen}`;
+                    posterElement.textContent = `Poster: ${pelicula.poster}`;
+                    buttonElement.textContent = 'Eliminar de favoritos'; 
 
-        // Agregar elementos a listItem
-        listItem.appendChild(idElement);
-        listItem.appendChild(nombreElement);
-        listItem.appendChild(tituloOriginalElement);
-        listItem.appendChild(lanzamientoElement);
-        listItem.appendChild(lenguajeElement);
-        listItem.appendChild(resumenElement);
-        listItem.appendChild(posterElement);
-        listItem.appendChild(brElement);
-        listItem.appendChild(buttonElement);
+                    listItem.appendChild(idElement);
+                    listItem.appendChild(nombreElement);
+                    listItem.appendChild(tituloOriginalElement);
+                    listItem.appendChild(lanzamientoElement);
+                    listItem.appendChild(lenguajeElement);
+                    listItem.appendChild(resumenElement);
+                    listItem.appendChild(posterElement);
+                    listItem.appendChild(brElement);
+                    listItem.appendChild(buttonElement);
 
-        // Agregar listItem a listaPeliculas
-        listaPeliculas.appendChild(listItem);
-        
-        // Agregar un evento al botón (puedes cambiar 'click' por otro evento según tus necesidades)
-        buttonElement.addEventListener('click', () => {
-            // Lógica para manejar el clic en el botón
-            console.log(`Detalles de la película: ${pelicula.nombre}`);
-            console.log(`Detalles de la película: ${pelicula.id}`);
-            eliminar_pelicula(`${pelicula.id}`);
-            // Agrega aquí la lógica que desees realizar al hacer clic en el botón
-        });
-    });
-})
+                    listaPeliculas.appendChild(listItem);
+                    
+                    buttonElement.addEventListener('click', () => {
+                        
+                        console.log(`Detalles de la película: ${pelicula.nombre}`);
+                        console.log(`Detalles de la película: ${pelicula.id}`);
+                        eliminar_pelicula(`${pelicula.id}`);
+                    });
+                });
+            })
 
                 .catch(error => {
-                    // Capturar y manejar cualquier error que pueda ocurrir durante la solicitud
                     console.error('Error durante la solicitud:', error);
                 });
 
@@ -126,59 +115,8 @@
 
             listar_peliculas();
 
-            function guardar_pelicula(title,release_date,original_language,original_title,overview,poster_path) {
-            // aqui se define los datos que se desea enviar al servidor
-            var datos = {
-                nombre: title,
-                lanzamiento: release_date,
-                lenguaje: original_language,
-                titulo_original: original_title,
-                resumen: overview,
-                poster: poster_path
-            };
-
-            // Realiza la solicitud al servicio de Laravel
-            fetch('/v1/pelis/create', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}' 
-                },
-                body: JSON.stringify(datos)
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Error en la solicitud.');
-                }
-                alert ('¡Pelicula guardada correctamente!');
-                return response.json();
-            })
-            .then(data => {
-                console.log('Respuesta del servidor:', data);
-                
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-        }
-        </script>
-
-        <!-- estilo para el boton guardar -->
-        <style>
-            .btn {
-                background-color: DodgerBlue;
-                border: none;
-                color: white;
-                padding: 12px 0px;
-                cursor: pointer;
-                font-size: 20px;
-            }
             
-            .btn:hover {
-                background-color: RoyalBlue;
-            }
-        </style>
-            <!-- fin estilo para el boton guardar -->
+        </script>
 
             <!-- estilo para el menu -->
             <style>

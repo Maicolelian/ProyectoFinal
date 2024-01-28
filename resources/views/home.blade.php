@@ -6,16 +6,15 @@
 
         <title>Peliculas en cartelera</title>
 
-        <!-- Fonts -->
+        <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+
         <link href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 
-        <!-- TailwindCss CDN -->
         <script src="https://cdn.tailwindcss.com"></script>
 
         <script>
 
             function guardar_pelicula(title,release_date,original_language,original_title,overview,poster_path) {
-            // aqui se define los datos que se desea enviar al servidor
             var datos = {
                 nombre: title,
                 lanzamiento: release_date,
@@ -25,7 +24,6 @@
                 poster: poster_path
             };
 
-            // Realiza la solicitud al servicio de Laravel
             fetch('/v1/pelis/create', {
                 method: 'POST',
                 headers: {
@@ -51,104 +49,78 @@
         }
         </script>
 
-        <!-- estilo para el boton guardar -->
+        
+
         <style>
-            .btn {
-                background-color: DodgerBlue;
-                border: none;
-                color: white;
-                padding: 12px 0px;
-                cursor: pointer;
-                font-size: 20px;
+            * {box-sizing: border-box;}
+            body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
             }
-            
-            .btn:hover {
-                background-color: RoyalBlue;
+            .topnav {
+            overflow: hidden;
+            background-color: #e9e9e9;
+            }
+            .topnav a {
+            float: left;
+            display: block;
+            color: black;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            font-size: 17px;
+            }
+            .topnav a:hover {
+            background-color: #ddd;
+            color: black;
+            }
+            .topnav a.active {
+            background-color: #2196F3;
+            color: white;
+            }
+            .topnav .search-container {
+            float: right;
+            }
+            .topnav input[type=text] {
+            padding: 6px;
+            margin-top: 8px;
+            font-size: 17px;
+            border: none;
+            }
+            .topnav .search-container button {
+            float: right;
+            padding: 6px 10px;
+            margin-top: 8px;
+            margin-right: 16px;
+            background: #ddd;
+            font-size: 17px;
+            border: none;
+            cursor: pointer;
+            }
+            .topnav .search-container button:hover {
+            background: #ccc;
+            }
+            @media screen and (max-width: 600px) {
+            .topnav .search-container {
+                float: none;
+            }
+            .topnav a, .topnav input[type=text], .topnav .search-container button {
+                float: none;
+                display: block;
+                text-align: left;
+                width: 100%;
+                margin: 0;
+                padding: 14px;
+            }
+            .topnav input[type=text] {
+                border: 1px solid #ccc;  
+            }
             }
         </style>
-            <!-- fin estilo para el boton guardar -->
-
-            <!-- estilo para el menu -->
-            <style>
-                * {box-sizing: border-box;}
-
-                body {
-                margin: 0;
-                font-family: Arial, Helvetica, sans-serif;
-                }
-
-                .topnav {
-                overflow: hidden;
-                background-color: #e9e9e9;
-                }
-
-                .topnav a {
-                float: left;
-                display: block;
-                color: black;
-                text-align: center;
-                padding: 14px 16px;
-                text-decoration: none;
-                font-size: 17px;
-                }
-
-                .topnav a:hover {
-                background-color: #ddd;
-                color: black;
-                }
-
-                .topnav a.active {
-                background-color: #2196F3;
-                color: white;
-                }
-
-                .topnav .search-container {
-                float: right;
-                }
-
-                .topnav input[type=text] {
-                padding: 6px;
-                margin-top: 8px;
-                font-size: 17px;
-                border: none;
-                }
-
-                .topnav .search-container button {
-                float: right;
-                padding: 6px 10px;
-                margin-top: 8px;
-                margin-right: 16px;
-                background: #ddd;
-                font-size: 17px;
-                border: none;
-                cursor: pointer;
-                }
-
-                .topnav .search-container button:hover {
-                background: #ccc;
-                }
-
-                @media screen and (max-width: 600px) {
-                .topnav .search-container {
-                    float: none;
-                }
-                .topnav a, .topnav input[type=text], .topnav .search-container button {
-                    float: none;
-                    display: block;
-                    text-align: left;
-                    width: 100%;
-                    margin: 0;
-                    padding: 14px;
-                }
-                .topnav input[type=text] {
-                    border: 1px solid #ccc;  
-                }
-                }
-            </style>
-            <!-- fin de estilo para el menu -->
+        
     </head>
     <body class="antialiased">
-        <!-- menu principal -->
+      
         <div class="topnav">
             <a class="active" href="#home">Home</a>
            
@@ -165,7 +137,7 @@
                 <center><h1 class="text-2xl text-blue-800 font-semibold mb-2">Cartelera</h1></center>
                 <br>
         </div>
-        <!-- fin del menu principal -->
+   
         <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
             <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
             
@@ -188,19 +160,7 @@
                                 <h2 class="text-2xl text-gray-900 font-semibold mb-2">{{ $title}}</h2>
                                 <div class="flex items-center space-x-2 tracking-wide pb-1">
                                 <h1 class="text-gray-500">Genero</h1>
-                                @if(count($lista_de_generos['genres']) > 0)
-                                    @php
-                                        $genero = 'Acción'; 
-                                    @endphp
-                                    @foreach ($lista_de_generos['genres'] as $singleGenre)
-                                        @if ($singleGenre['name'] === $genero)
-                                            <span class="text-sm">
-                                                {{ $singleGenre['name'] }}
-                                            </span>
-                                            @break
-                                        @endif
-                                    @endforeach
-                                @endif
+                                {{ $lista_de_generos }}
 
                                 </div>
                                 <div class="flex items-center space-x-2 tracking-wide pb-1">
