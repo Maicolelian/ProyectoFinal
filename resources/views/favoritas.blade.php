@@ -122,7 +122,8 @@
     <body class="antialiased">
 
         <div class="topnav">
-            <a class="active" href="#home">Home</a>
+            <a class="active" href="#home">Favoritas</a>
+            <a href="{{ route('home') }}">Cartelera</a>
            
             <div class="search-container">
                 <form action="/action_page.php">

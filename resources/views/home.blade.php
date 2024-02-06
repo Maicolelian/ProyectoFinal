@@ -55,6 +55,7 @@
       
         <div class="topnav">
             <a class="active" href="#home">Home</a>
+            <a href="{{ route('favoritas') }}">Favoritas</a>
            
             <div class="search-container">
                 <form action="/action_page.php">
